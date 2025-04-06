@@ -1,0 +1,38 @@
+{
+  "version": "0.1.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Directory",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start:dev"],
+      "cwd": "${workspaceRoot}/backend/directory",
+      "console": "internalConsole",
+      "runtimeVersion": "22",
+      "outputCapture": "std"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Drive",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start:dev"],
+      "cwd": "${workspaceRoot}/backend/drive",
+      "console": "internalConsole",
+      "outputCapture": "std",
+      "runtimeVersion": "22"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Gateway",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start:dev"],
+      "cwd": "${workspaceRoot}/backend/gateway",
+      "console": "internalConsole",
+      "outputCapture": "std",
+      "runtimeVersion": "20"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./init/postgres/docker:/docker-entrypoint-initdb.d
+      
+  directory:
+    build: ../backend/directory
+    ports:
+      - "10001:5000"
+    volumes:
+      - ../backend/directory:/data/directory
+
+  drive:
+    build: ../backend/drive
+    ports:
+      - "10002:4000"
+    volumes:
+      - ../backend/drive:/data/drive
+
+  gateway:
+    build: ../backend/gateway
+    ports:
+      - "5000:3000"
+    volumes:
+      - ../backend/gateway:/data/gateway

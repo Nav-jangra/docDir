@@ -2,8 +2,8 @@ export const value = {
   APPLICATION_PORT: process.env.APPLICATION_PORT || 3000,
   NAME: process.env.Product || 'local',
   jwt: {
-    secret: process.env.JWT_SECRET || 'Wai3MWuaJb9QHJjCFzFosB6H2bKUflvmw2yMirxr',
-    sessionDuration: process.env.JWT_SESSION_DURATION || '1d'
+    secret: process.env.JWT_SECRET,
+    sessionDuration: process.env.JWT_SESSION_DURATION,
   },
   database: {
     host: process.env.DB_HOST,

@@ -10,7 +10,7 @@ This project implements a backend architecture using **NestJS** (Node.js v22) wi
 
 ## 🏗️ Tech Stack
 
-- **Node.js** v22 (Alpine)
+- **Node.js** v22
 - **NestJS** framework
 - **PostgreSQL** for database
 - **TypeORM** for ORM and migrations
@@ -62,7 +62,7 @@ cd docDir
 ### Run Services
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 This starts all three services and the PostgreSQL database.
@@ -91,8 +91,7 @@ Each service has its own `.env` file (configure before running):
 
 ### 📄 Gateway Service `.env`
 
-```env
-
+```yaml
 DB_HOST: "localhost"
 DB_PORT: "5432"
 DB_USERNAME: "postgres"
@@ -105,8 +104,7 @@ JWT_SECRET: "your-secret"
 
 ### 📄 Directory Service `.env`
 
-```env
-
+```yaml
 DB_HOST: "localhost"
 DB_PORT: "5432"
 DB_USERNAME: "postgres"
@@ -119,7 +117,7 @@ JWT_SESSION_DURATION: "id"
 
 ### 📄 Drive Service `.env`
 
-```env
+```yaml
 DB_HOST: "postgres"
 DB_PORT: "5432"
 DB_USERNAME: "postgres"
@@ -135,6 +133,64 @@ Product: "local"
 ```
 
 ---
+
+## 🥪 Initial Database Setup Required
+
+Before the system is fully functional, you need to run initial SQL queries to populate necessary tables such as APIs, users, roles, and permissions.
+
+🔗 Sample Data to Insert
+
+```sql
+
+-- Database : docDir_gateway
+-- Table: apis
+
+INSERT INTO public.apis (method, service, entity, path, status, access) VALUES
+('POST', 'directory', 'auth',        'login',          'active', 'public'),
+('POST', 'directory', 'auth',        'logout',         'active', 'authentication'),
+('POST', 'directory', 'auth',        'reset-password', 'active', 'authentication'),
+('POST', 'directory', 'users',       '',               'active', 'authentication'),
+('GET',  'directory', 'users',       '',               'active', 'authentication'),
+('GET',  'directory', 'users',       ':code',          'active', 'authentication'),
+('GET',  'directory', 'users',       ':code',          'active', 'authentication'),
+('POST', 'drive',     'files',       '',               'active', 'authentication'),
+('GET',  'drive',     'files',       ':code',          'active', 'authentication'),
+('PUT',  'drive',     'files',       ':code',          'active', 'authentication'),
+('GET',  'drive',     'files',       '',               'active', 'authentication'),
+('GET',  'directory', 'roles',       '',               'active', 'authentication'),
+('POST', 'directory', 'roles',       '',               'active', 'authentication'),
+('GET',  'directory', 'roles',       ':code',          'active', 'authentication'),
+('GET',  'directory', 'permissions', '',               'active', 'authentication'),
+('POST', 'directory', 'permissions', '',               'active', 'authentication'),
+('GET',  'directory', 'permissions', ':code',          'active', 'authentication');
+
+-- Database : docDir_directory
+-- Table: role
+INSERT INTO role (id, name, description) VALUES
+(1, 'admin', 'Administrator with full access'),
+(2, 'user', 'Standard user with limited access');
+
+-- Table: permissions
+INSERT INTO permissions (id, name, description, entity, action) VALUES
+(1, 'read_files', 'Permission to read files', 'files', 'read'),
+(2, 'upload_files', 'Permission to upload files','files', 'create'),
+(3, 'manage_users', 'Permission to manage user accounts', 'users', 'create');
+
+-- Table: rolePermissions (join table)
+INSERT INTO "rolePermissions" ("roleId", "permissionsId") VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(2, 1),
+(2, 2);
+
+-- Table: users
+INSERT INTO users (id, fullname, email, phone,  password, "roleId" ) VALUES
+(1, 'admin', 'admin@example.com', '1234567890','password', 1);
+
+
+```
+
 
 ## 🛡️ Security & Best Practices
 
